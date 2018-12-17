@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "@okta/okta-react": "^1.1.4",
     "http-proxy-middleware": "^0.19.1",
     "npm-watch": "^0.5.0",
     "prop-types": "^15.6.2",
