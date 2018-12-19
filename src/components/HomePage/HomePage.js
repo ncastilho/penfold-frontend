@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { withAuth } from '@okta/okta-react';
 import ContactList from '../ContactList'
+import {ContactDetails} from "../ContactDetails";
 
 export default withAuth(class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = { authenticated: null };
+    this.state = {
+      authenticated: null,
+      selectedContact: {}
+    };
     this.checkAuthentication = this.checkAuthentication.bind(this);
     this.checkAuthentication();
     this.login = this.login.bind(this);
@@ -31,6 +35,11 @@ export default withAuth(class Home extends Component {
   async logout() {
     // Redirect to '/' after logout
     this.props.auth.logout('/');
+  }
+
+  handleOnSelected = (contact) => {
+    console.log(contact)
+    this.setState({selectedContact: contact})
   }
 
   render() {
@@ -59,7 +68,7 @@ export default withAuth(class Home extends Component {
             <div className="row">
 
               <div className="col-lg-3 g-mb-50 g-mb-0--lg">
-                <ContactList />
+                <ContactList onSelected={this.handleOnSelected} />
               </div>
 
               <div className="col-lg-9">
@@ -91,40 +100,7 @@ export default withAuth(class Home extends Component {
                     <h2 className="h4 g-font-weight-300">Manage Name, Email Address and Phone Number</h2>
                     <p>Below are name, email and mobile contacts on file for this person.</p>
 
-                    <ul className="list-unstyled g-mb-30">
-
-                      <li className="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
-                        <div className="g-pr-10">
-                          <strong
-                              className="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Name</strong>
-                          <span className="align-top">John Doe</span>
-                        </div>
-                        <span>
-                        <i className="icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"></i>
-                      </span>
-                      </li>
-
-                      <li className="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
-                        <div className="g-pr-10">
-                          <strong className="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Email address</strong>
-                          <span className="align-top">john.doe@htmlstream.com</span>
-                        </div>
-                        <span>
-                        <i className="icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"></i>
-                      </span>
-                      </li>
-
-                      <li className="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
-                        <div className="g-pr-10">
-                          <strong className="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Mobile
-                            number</strong>
-                          <span className="align-top">(+44) 456 789059</span>
-                        </div>
-                        <span>
-                        <i className="icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"></i>
-                      </span>
-                      </li>
-                    </ul>
+                    <ContactDetails {...this.state.selectedContact} />
 
                   </div>
 

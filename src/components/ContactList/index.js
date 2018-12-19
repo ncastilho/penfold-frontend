@@ -42,8 +42,8 @@ export default withAuth(class ContactList extends Component {
     this.setState({searchTerm: e.target.value});
   };
 
-  handleOnClick = (item) => {
-    console.log(item)
+  handleOnClick = (contact) => {
+    this.props.onSelected(contact)
   };
 
   render() {
