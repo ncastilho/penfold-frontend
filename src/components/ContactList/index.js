@@ -33,6 +33,7 @@ export default withAuth(class ContactList extends Component {
       });
       const data = await response.json();
       this.setState({ contacts: data });
+      this.handleOnClick(data[0])
     } catch (err) {
       // handle error as needed
     }

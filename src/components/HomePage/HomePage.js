@@ -12,7 +12,6 @@ export default withAuth(class Home extends Component {
     };
     this.checkAuthentication = this.checkAuthentication.bind(this);
     this.checkAuthentication();
-    this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
   }
 
@@ -25,11 +24,6 @@ export default withAuth(class Home extends Component {
 
   componentDidUpdate() {
     this.checkAuthentication();
-  }
-
-  async login() {
-    // Redirect to '/' after login
-    this.props.auth.login('/');
   }
 
   async logout() {
