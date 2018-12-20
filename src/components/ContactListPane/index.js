@@ -18,7 +18,7 @@ const ContactItem = ({item, active, onClick}) => {
   </a>;
 };
 
-export default withAuth(class ContactList extends Component {
+export default withAuth(class ContactListPane extends Component {
   state = {
     searchTerm: '',
     contacts: [],
