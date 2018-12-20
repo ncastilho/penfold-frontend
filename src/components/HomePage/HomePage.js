@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { withAuth } from '@okta/okta-react';
 import ContactList from '../ContactList'
 import {ContactDetails} from "../ContactDetails";
+import ContactMessages from "../ContactMessages";
+import ContactHistory from "../ContactHistory";
+import ContactPreferences from "../ContactPreferences";
 
 export default withAuth(class Home extends Component {
   constructor(props) {
@@ -103,59 +106,8 @@ export default withAuth(class Home extends Component {
                     <h2 className="h4 g-font-weight-300">Manage Messages</h2>
                     <p className="g-mb-5">Add messages, change send time and so on.</p>
 
-                    <form>
+                    <ContactMessages contact={this.state.selectedContact} />
 
-                      <div className="row">
-                        <div className="col-lg-12 g-mb-50 g-mb-0--lg">
-
-                          <div className="form-group g-mb-20">
-                            <small className="form-text g-font-size-default g-mt-10 text-right">160 characters remaining</small>
-                            <div className="input-group g-brd-primary--focus">
-                          <textarea className="form-control form-control-md g-resize-none rounded-0" rows="4"
-                                    placeholder="Ipsum Aenean Porta"></textarea>
-                              <div className="input-group-append">
-                            <span className="input-group-text rounded-0 g-bg-white g-color-gray-light-v1"><i
-                                className="fa fa-pencil"></i></span>
-                              </div>
-                            </div>
-                            <small className="form-text g-font-size-default g-mt-10"><i className="icon-clock g-mr-5"></i> <a href="#!" >Schedule</a> | <a href="#!" >Add</a></small>
-                          </div>
-
-                          <hr className="g-brd-gray-light-v4 g-my-20" />
-
-                          <div className="form-group g-mb-20">
-                            <small className="form-text g-font-size-default g-mt-10 text-right">2 characters remaining</small>
-                            <div className="input-group g-brd-primary--focus">
-                          <textarea className="form-control form-control-md g-resize-none rounded-0" rows="4"
-                                    placeholder="Ipsum Aenean Porta" onChange={() => {}} value={'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus animi aperiam, aut et excepturi facere iusto libero maxime molestiae nam numquam ratione similique vel, vero, voluptates. Laudantium nam possimus ullam.'}></textarea>
-                              <div className="input-group-append">
-                            <span className="input-group-text rounded-0 g-bg-white g-color-gray-light-v1"><i
-                                className="fa fa-pencil"></i></span>
-                              </div>
-                            </div>
-                            <small className="form-text g-font-size-default g-mt-10"><i className="icon-clock g-mr-5"></i> <a href="#!" >Scheduled for 11:30</a> | <a href="#!" >Update</a> <a className='float-right' href="#!" >Remove</a></small>
-                          </div>
-
-                          <hr className="g-brd-gray-light-v4 g-my-20" />
-
-                          <div className="form-group g-mb-20">
-                            <div className="input-group g-brd-primary--focus">
-                          <textarea className="form-control form-control-md g-resize-none rounded-0 disabled" rows="4"
-                                    placeholder="Ipsum Aenean Porta" onChange={() => {}} disabled={true} value={'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus animi aperiam, aut et excepturi facere iusto libero maxime molestiae nam numquam ratione similique vel, vero, voluptates. Laudantium nam possimus ullam.'}></textarea>
-                              <div className="input-group-append">
-                            <span className="input-group-text rounded-0 g-bg-white g-color-gray-light-v1"><i
-                                className="fa fa-pencil"></i></span>
-                              </div>
-                            </div>
-                            <small className="form-text g-font-size-default g-mt-10"><i className="icon-clock g-mr-5"></i> Scheduled for 14:00 PM | <a href="#!" >Change</a> <a className='float-right' href="#!" >Remove</a></small>
-                          </div>
-
-                          <hr className="g-brd-gray-light-v4 g-my-20" />
-
-                        </div>
-                      </div>
-
-                    </form>
                   </div>
 
                   <div className="tab-pane fade" id="nav-1-1-default-hor-left-underline--3" role="tabpanel"
@@ -163,158 +115,8 @@ export default withAuth(class Home extends Component {
                     <h2 className="h4 g-font-weight-300">Message History</h2>
                     <p className="g-mb-25">Below shows the history of triggered messages and their status.</p>
 
-                    <div className="table-responsive">
-                      <table className="table table-bordered u-table--v2">
-                        <thead className="text-uppercase g-letter-spacing-1">
-                        <tr>
-                          <th className="g-font-weight-300 g-color-black g-min-width-200">Message</th>
-                          <th className="g-font-weight-300 g-color-black">Status</th>
-                          <th className="g-font-weight-300 g-color-black">Date</th>
-                        </tr>
-                        </thead>
+                    <ContactHistory contact={this.state.selectedContact} />
 
-                        <tbody>
-                        <tr>
-                          <td className="align-middle">
-                            <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus asperiores aut consequatur debitis dignissimos eos ex facilis fugiat iure nemo numquam officia pariatur, quisquam saepe sunt vel veniam vitae? Ipsum.</span>
-                          </td>
-                          <td className="align-middle">
-                        <span className="u-label g-bg-primary g-rounded-50 g-py-5 g-min-width-90">
-                          <i className="fa fa-check g-mr-5"></i>
-                          Received
-                        </span>
-                          </td>
-                          <td className="align-middle text-nowrap">
-                            <span className="d-block g-mb-5"><i className="icon-calendar g-mr-5"></i> July 16, 2017</span>
-                            <span className="d-block g-mb-5"><i className="icon-clock g-mr-5"></i> 11:30</span>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td className="align-middle">
-                            <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda beatae cupiditate eum fuga fugiat itaque nihil provident quam quidem voluptate. Accusantium at culpa in quod? Enim fugiat iste quia veritatis.</span>
-                          </td>
-
-                          <td className="align-middle">
-                        <span className="u-label g-bg-red g-rounded-50 g-py-5 g-min-width-90">
-                          <i className="fa fa-times g-mr-5"></i>
-                          Failed
-                        </span>
-                          </td>
-                          <td className="align-middle text-nowrap">
-                            <span className="d-block g-mb-5"><i className="icon-calendar g-mr-5"></i> July 16, 2017</span>
-                            <span className="d-block g-mb-5"><i className="icon-clock g-mr-5"></i> 14:00</span>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td className="align-middle">
-                            <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci dolorum eius ipsam iste, molestias obcaecati perspiciatis quae soluta tenetur unde ut voluptatem! Aliquam eligendi error est fuga hic odit, unde!</span>
-                          </td>
-
-                          <td className="align-middle">
-                        <span className="u-label g-bg-orange g-rounded-50 g-py-5 g-min-width-90">
-                           <i className="fa fa-info g-mr-5"></i>
-                          Sent
-                        </span>
-                          </td>
-                          <td className="align-middle text-nowrap">
-                            <span className="d-block g-mb-5"><i className="icon-calendar g-mr-5"></i> July 17, 2017</span>
-                            <span className="d-block g-mb-5"><i className="icon-clock g-mr-5"></i> 11:30</span>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td className="align-middle">
-                            <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus asperiores aut consequatur debitis dignissimos eos ex facilis fugiat iure nemo numquam officia pariatur, quisquam saepe sunt vel veniam vitae? Ipsum.</span>
-                          </td>
-                          <td className="align-middle">
-                        <span className="u-label g-bg-primary g-rounded-50 g-py-5 g-min-width-90">
-                          <i className="fa fa-check g-mr-5"></i>
-                          Received
-                        </span>
-                          </td>
-                          <td className="align-middle text-nowrap">
-                            <span className="d-block g-mb-5"><i className="icon-calendar g-mr-5"></i> July 17, 2017</span>
-                            <span className="d-block g-mb-5"><i className="icon-clock g-mr-5"></i> 14:00</span>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td className="align-middle">
-                            <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus asperiores aut consequatur debitis dignissimos eos ex facilis fugiat iure nemo numquam officia pariatur, quisquam saepe sunt vel veniam vitae? Ipsum.</span>
-                          </td>
-                          <td className="align-middle">
-                        <span className="u-label g-bg-primary g-rounded-50 g-py-5 g-min-width-90">
-                          <i className="fa fa-check g-mr-5"></i>
-                          Received
-                        </span>
-                          </td>
-                          <td className="align-middle text-nowrap">
-                            <span className="d-block g-mb-5"><i className="icon-calendar g-mr-5"></i> July 18, 2017</span>
-                            <span className="d-block g-mb-5"><i className="icon-clock g-mr-5"></i> 11:30</span>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td className="align-middle">
-                            <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus asperiores aut consequatur debitis dignissimos eos ex facilis fugiat iure nemo numquam officia pariatur, quisquam saepe sunt vel veniam vitae? Ipsum.</span>
-                          </td>
-                          <td className="align-middle">
-                        <span className="u-label g-bg-red g-rounded-50 g-py-5 g-min-width-90">
-                          <i className="fa fa-times g-mr-5"></i>
-                          Failed
-                        </span>
-                          </td>
-                          <td className="align-middle text-nowrap">
-                            <span className="d-block g-mb-5"><i className="icon-calendar g-mr-5"></i> July 18, 2017</span>
-                            <span className="d-block g-mb-5"><i className="icon-clock g-mr-5"></i> 14:00</span>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td className="align-middle">
-                            <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus asperiores aut consequatur debitis dignissimos eos ex facilis fugiat iure nemo numquam officia pariatur, quisquam saepe sunt vel veniam vitae? Ipsum.</span>
-                          </td>
-                          <td className="align-middle">
-                        <span className="u-label g-bg-primary g-rounded-50 g-py-5 g-min-width-90">
-                          <i className="fa fa-check g-mr-5"></i>
-                          Received
-                        </span>
-                          </td>
-                          <td className="align-middle text-nowrap">
-                            <span className="d-block g-mb-5"><i className="icon-calendar g-mr-5"></i> July 19, 2017</span>
-                            <span className="d-block g-mb-5"><i className="icon-clock g-mr-5"></i> 11:30</span>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td className="align-middle">
-                            <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci dolorum eius ipsam iste, molestias obcaecati perspiciatis quae soluta tenetur unde ut voluptatem! Aliquam eligendi error est fuga hic odit, unde!</span>
-                          </td>
-
-                          <td className="align-middle">
-                        <span className="u-label g-bg-orange g-rounded-50 g-py-5 g-min-width-90">
-                           <i className="fa fa-info g-mr-5"></i>
-                          Sent
-                        </span>
-                          </td>
-                          <td className="align-middle text-nowrap">
-                            <span className="d-block g-mb-5"><i className="icon-calendar g-mr-5"></i> July 19, 2017</span>
-                            <span className="d-block g-mb-5"><i className="icon-clock g-mr-5"></i> 14:00</span>
-                          </td>
-                        </tr>
-
-                        </tbody>
-                      </table>
-
-                      <hr className="g-brd-gray-light-v4 g-my-20" />
-
-                      <div className='text-center g-mb-20'>
-                        <a className='text-muted' href="#!" >Show more <i className="icon-arrow-down g-mr-5"></i></a>
-                      </div>
-
-                    </div>
                   </div>
 
                   <div className="tab-pane fade" id="nav-1-1-default-hor-left-underline--4" role="tabpanel"
@@ -322,49 +124,8 @@ export default withAuth(class Home extends Component {
                     <h2 className="h4 g-font-weight-300">Manage Settings</h2>
                     <p className="g-mb-25">Below are the settings you can change for this person.</p>
 
-                    <form>
+                    <ContactPreferences contact={this.state.selectedContact} />
 
-                      <div className="form-group">
-                        <label className="d-flex align-items-center justify-content-between">
-                          <span>SMS notifications</span>
-                          <div className="u-check">
-                            <input className="g-hidden-xs-up g-pos-abs g-top-0 g-right-0" name="smsNotification"
-                                   type="checkbox" onChange={e => !e.target.checked} defaultChecked={true} />
-                            <div className="u-check-icon-radio-v7">
-                              <i className="d-inline-block"></i>
-                            </div>
-                          </div>
-                        </label>
-                      </div>
-
-                      <hr className="g-brd-gray-light-v4 g-my-20" />
-
-
-                      <div className="form-group">
-                        <label className="d-flex align-items-center justify-content-between">
-                      <span>Mobile verification
-                         <span className="u-label g-bg-primary g-rounded-50 g-ml-10 g-mb-15">
-                          <i className="fa fa-check g-mr-5"></i>
-                          Verified
-                        </span>
-                      </span>
-                          <button type="button" className="btn btn-primary btn-sm rounded-0 g-mr-0 g-mb-0">Resend</button>
-                        </label>
-                      </div>
-
-                      <hr className="g-brd-gray-light-v4 g-my-20" />
-
-                      <div className="form-group">
-                        <label className="d-flex align-items-center justify-content-between g-mb-0">
-                          <span>Remove this person</span>
-                          <button type="button" className="btn btn-danger btn-sm rounded-0 g-mr-0 g-mb-0">Delete</button>
-                        </label>
-                        <small className="form-text text-muted g-font-size-12 g-mt-0">This action cannot be undone.
-                        </small>
-                      </div>
-
-                      <hr className="g-brd-gray-light-v4 g-mt-0 g-mb-20" />
-                    </form>
                   </div>
 
                 </div>
