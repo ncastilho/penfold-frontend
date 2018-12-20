@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {withAuth} from '@okta/okta-react';
-import {ContactDetails} from "../ContactDetails";
+import ContactInfo from "../ContactInfo";
 import ContactMessages from "../ContactMessages";
 import ContactHistory from "../ContactHistory";
 import ContactPreferences from "../ContactPreferences";
@@ -46,7 +46,7 @@ export default withAuth(class ContactDetailsPane extends Component {
             <h2 className="h4 g-font-weight-300">Manage Name, Email Address and Phone Number</h2>
             <p>Below are name, email and mobile contacts on file for this person.</p>
 
-            <ContactDetails {...this.state.contact} />
+            <ContactInfo contact={this.state.contact} />
 
           </div>
 
