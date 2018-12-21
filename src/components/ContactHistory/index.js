@@ -2,15 +2,41 @@ import React, {Component} from "react";
 import fetch from 'isomorphic-fetch';
 import {withAuth} from '@okta/okta-react';
 
+function HistoryItem({item}) {
+  return <tr>
+    <td className='align-middle'>
+      <span>{item.content}</span>
+    </td>
+    <td className='align-middle'>
+      <span className='u-label g-bg-primary g-rounded-50 g-py-5 g-min-width-90'>
+        <i className='fa fa-check g-mr-5'></i>
+        {item.state}
+      </span>
+    </td>
+    <td className='align-middle text-nowrap'>
+      <span className='d-block g-mb-5'><i className='icon-calendar g-mr-5'></i> {item.date}</span>
+      <span className='d-block g-mb-5'><i className='icon-clock g-mr-5'></i> {item.time}</span>
+    </td>
+  </tr>;
+}
+
 export default withAuth(class ContactHistory extends Component {
   state = {
     contact: this.props.contact || {},
     history: [],
   };
 
+  async componentDidMount(){
+    await this.fetch(this.state.contact.id);
+  }
+
   async componentWillReceiveProps(newProps){
+    await this.fetch(newProps.contact.id);
+  }
+
+  async fetch(contactId) {
     try {
-      const response = await fetch(`http://localhost:3000/api/contacts/${newProps.contact.id}/history`, {
+      const response = await fetch(`http://localhost:3000/api/contacts/${contactId}/history`, {
         headers: {
           Authorization: 'Bearer ' + await this.props.auth.getAccessToken()
         }
@@ -25,6 +51,8 @@ export default withAuth(class ContactHistory extends Component {
 
   render() {
     if (!this.state.history) return <div>Loading...</div>;
+    const history = this.state.history;
+    console.log('history', history)
     return (
         <div className="table-responsive">
           <table className="table table-bordered u-table--v2">
@@ -37,144 +65,14 @@ export default withAuth(class ContactHistory extends Component {
             </thead>
 
             <tbody>
-            <tr>
-              <td className="align-middle">
-                <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus asperiores aut consequatur debitis dignissimos eos ex facilis fugiat iure nemo numquam officia pariatur, quisquam saepe sunt vel veniam vitae? Ipsum.</span>
-              </td>
-              <td className="align-middle">
-                        <span className="u-label g-bg-primary g-rounded-50 g-py-5 g-min-width-90">
-                          <i className="fa fa-check g-mr-5"></i>
-                          Received
-                        </span>
-              </td>
-              <td className="align-middle text-nowrap">
-                <span className="d-block g-mb-5"><i className="icon-calendar g-mr-5"></i> July 16, 2017</span>
-                <span className="d-block g-mb-5"><i className="icon-clock g-mr-5"></i> 11:30</span>
-              </td>
-            </tr>
-
-            <tr>
-              <td className="align-middle">
-                <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda beatae cupiditate eum fuga fugiat itaque nihil provident quam quidem voluptate. Accusantium at culpa in quod? Enim fugiat iste quia veritatis.</span>
-              </td>
-
-              <td className="align-middle">
-                        <span className="u-label g-bg-red g-rounded-50 g-py-5 g-min-width-90">
-                          <i className="fa fa-times g-mr-5"></i>
-                          Failed
-                        </span>
-              </td>
-              <td className="align-middle text-nowrap">
-                <span className="d-block g-mb-5"><i className="icon-calendar g-mr-5"></i> July 16, 2017</span>
-                <span className="d-block g-mb-5"><i className="icon-clock g-mr-5"></i> 14:00</span>
-              </td>
-            </tr>
-
-            <tr>
-              <td className="align-middle">
-                <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci dolorum eius ipsam iste, molestias obcaecati perspiciatis quae soluta tenetur unde ut voluptatem! Aliquam eligendi error est fuga hic odit, unde!</span>
-              </td>
-
-              <td className="align-middle">
-                        <span className="u-label g-bg-orange g-rounded-50 g-py-5 g-min-width-90">
-                           <i className="fa fa-info g-mr-5"></i>
-                          Sent
-                        </span>
-              </td>
-              <td className="align-middle text-nowrap">
-                <span className="d-block g-mb-5"><i className="icon-calendar g-mr-5"></i> July 17, 2017</span>
-                <span className="d-block g-mb-5"><i className="icon-clock g-mr-5"></i> 11:30</span>
-              </td>
-            </tr>
-
-            <tr>
-              <td className="align-middle">
-                <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus asperiores aut consequatur debitis dignissimos eos ex facilis fugiat iure nemo numquam officia pariatur, quisquam saepe sunt vel veniam vitae? Ipsum.</span>
-              </td>
-              <td className="align-middle">
-                        <span className="u-label g-bg-primary g-rounded-50 g-py-5 g-min-width-90">
-                          <i className="fa fa-check g-mr-5"></i>
-                          Received
-                        </span>
-              </td>
-              <td className="align-middle text-nowrap">
-                <span className="d-block g-mb-5"><i className="icon-calendar g-mr-5"></i> July 17, 2017</span>
-                <span className="d-block g-mb-5"><i className="icon-clock g-mr-5"></i> 14:00</span>
-              </td>
-            </tr>
-
-            <tr>
-              <td className="align-middle">
-                <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus asperiores aut consequatur debitis dignissimos eos ex facilis fugiat iure nemo numquam officia pariatur, quisquam saepe sunt vel veniam vitae? Ipsum.</span>
-              </td>
-              <td className="align-middle">
-                        <span className="u-label g-bg-primary g-rounded-50 g-py-5 g-min-width-90">
-                          <i className="fa fa-check g-mr-5"></i>
-                          Received
-                        </span>
-              </td>
-              <td className="align-middle text-nowrap">
-                <span className="d-block g-mb-5"><i className="icon-calendar g-mr-5"></i> July 18, 2017</span>
-                <span className="d-block g-mb-5"><i className="icon-clock g-mr-5"></i> 11:30</span>
-              </td>
-            </tr>
-
-            <tr>
-              <td className="align-middle">
-                <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus asperiores aut consequatur debitis dignissimos eos ex facilis fugiat iure nemo numquam officia pariatur, quisquam saepe sunt vel veniam vitae? Ipsum.</span>
-              </td>
-              <td className="align-middle">
-                        <span className="u-label g-bg-red g-rounded-50 g-py-5 g-min-width-90">
-                          <i className="fa fa-times g-mr-5"></i>
-                          Failed
-                        </span>
-              </td>
-              <td className="align-middle text-nowrap">
-                <span className="d-block g-mb-5"><i className="icon-calendar g-mr-5"></i> July 18, 2017</span>
-                <span className="d-block g-mb-5"><i className="icon-clock g-mr-5"></i> 14:00</span>
-              </td>
-            </tr>
-
-            <tr>
-              <td className="align-middle">
-                <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus asperiores aut consequatur debitis dignissimos eos ex facilis fugiat iure nemo numquam officia pariatur, quisquam saepe sunt vel veniam vitae? Ipsum.</span>
-              </td>
-              <td className="align-middle">
-                        <span className="u-label g-bg-primary g-rounded-50 g-py-5 g-min-width-90">
-                          <i className="fa fa-check g-mr-5"></i>
-                          Received
-                        </span>
-              </td>
-              <td className="align-middle text-nowrap">
-                <span className="d-block g-mb-5"><i className="icon-calendar g-mr-5"></i> July 19, 2017</span>
-                <span className="d-block g-mb-5"><i className="icon-clock g-mr-5"></i> 11:30</span>
-              </td>
-            </tr>
-
-            <tr>
-              <td className="align-middle">
-                <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci dolorum eius ipsam iste, molestias obcaecati perspiciatis quae soluta tenetur unde ut voluptatem! Aliquam eligendi error est fuga hic odit, unde!</span>
-              </td>
-
-              <td className="align-middle">
-                        <span className="u-label g-bg-orange g-rounded-50 g-py-5 g-min-width-90">
-                           <i className="fa fa-info g-mr-5"></i>
-                          Sent
-                        </span>
-              </td>
-              <td className="align-middle text-nowrap">
-                <span className="d-block g-mb-5"><i className="icon-calendar g-mr-5"></i> July 19, 2017</span>
-                <span className="d-block g-mb-5"><i className="icon-clock g-mr-5"></i> 14:00</span>
-              </td>
-            </tr>
-
+            {history.map((item) => <HistoryItem key={item.id} item={item} />)}
             </tbody>
           </table>
 
           <hr className="g-brd-gray-light-v4 g-my-20" />
 
           <div className='text-center g-mb-20'>
-            <a className='text-muted' href="#!" >Show more <i className="icon-arrow-down g-mr-5"></i></a>
+            <a className='text-muted' href="#!">Show more <i className="icon-arrow-down g-mr-5"></i></a>
           </div>
 
         </div>
