@@ -22,6 +22,8 @@ const Message = withAuth(class Message extends Component {
   }
 
   async handleOnAdd() {
+    console.log(this.state.contact.name)
+
     try {
       const response = await fetch(`http://localhost:3000/api/contacts/${this.state.contact.id}/messages`, {
         method: 'POST',
@@ -198,11 +200,13 @@ export default withAuth(class ContactMessages extends Component {
   }
 
   async componentWillReceiveProps(newProps) {
+    console.log('componentWillReceiveProps')
     await this.getMessages(newProps.contact.id)
     this.setState({contact: newProps.contact})
   }
 
   async componentDidMount() {
+    console.log('componentDidMount')
     await this.getMessages(this.state.contact.id)
   }
 
@@ -227,15 +231,17 @@ export default withAuth(class ContactMessages extends Component {
   render() {
     if (!this.state.messages) return <div>Loading...</div>;
     const {messages, contact} = this.state;
+
     return (
         <div className='row'>
           <div className='col-lg-12 g-mb-50 g-mb-0--lg'>
-            <Message key={'new'} contact={contact} />
-            {messages.map((message) => <Message
-                key={message.id}
-                message={message}
-                contact={contact}
-                onStateChange={this.onStateChange} />)}
+            <Message key={'new'}
+                     contact={contact}
+                     onStateChange={this.onStateChange} />
+            {messages.map((message) => <Message key={message.id}
+                                                          message={message}
+                                                          contact={contact}
+                                                          onStateChange={this.onStateChange} />)}
           </div>
         </div>
     )

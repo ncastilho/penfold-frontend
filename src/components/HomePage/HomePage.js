@@ -32,7 +32,6 @@ export default withAuth(class Home extends Component {
   }
 
   handleOnSelected = (contact) => {
-    console.log(contact)
     this.setState({contact: contact})
   }
 

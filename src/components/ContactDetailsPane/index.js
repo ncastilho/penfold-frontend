@@ -5,7 +5,7 @@ import ContactMessages from "../ContactMessages";
 import ContactHistory from "../ContactHistory";
 import ContactPreferences from "../ContactPreferences";
 
-export default withAuth(class ContactDetailsPane extends Component {
+class ContactDetailsPane extends Component {
   state = {
     contact: this.props.contact || {},
   };
@@ -82,4 +82,6 @@ export default withAuth(class ContactDetailsPane extends Component {
       </div>
     )
   };
-});
+};
+
+export default withAuth(ContactDetailsPane);

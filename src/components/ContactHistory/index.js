@@ -20,7 +20,7 @@ function HistoryItem({item}) {
   </tr>;
 }
 
-export default withAuth(class ContactHistory extends Component {
+class ContactHistory extends Component {
   state = {
     contact: this.props.contact || {},
     history: [],
@@ -52,7 +52,7 @@ export default withAuth(class ContactHistory extends Component {
   render() {
     if (!this.state.history) return <div>Loading...</div>;
     const history = this.state.history;
-    console.log('history', history)
+
     return (
         <div className="table-responsive">
           <table className="table table-bordered u-table--v2">
@@ -78,4 +78,6 @@ export default withAuth(class ContactHistory extends Component {
         </div>
     )
   };
-});
+};
+
+export default withAuth(ContactHistory);

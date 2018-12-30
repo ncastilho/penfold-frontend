@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {withAuth} from '@okta/okta-react';
 
-export default withAuth(class AddContactModal extends Component {
+class AddContactModal extends Component {
   state = {};
 
   render() {
@@ -82,4 +82,6 @@ export default withAuth(class AddContactModal extends Component {
         </div>
     )
   };
-});
+};
+
+export default withAuth(AddContactModal);
