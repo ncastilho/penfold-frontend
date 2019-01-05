@@ -5,3 +5,7 @@ html {
 .g-min-width-90 {
     min-width: 90px;
 }
+
+.u-header, .u-header__section, .navbar {
+    z-index: -1000;
+}

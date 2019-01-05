@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { withAuth } from '@okta/okta-react';
 import ContactListPane from '../ContactListPane'
-import ContactDetailsPane from "../ContactDetailsPane";
+import ContactDetailsPane from '../ContactDetailsPane';
+import AddContactModal from '../AddContactModal';
 
 export default withAuth(class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
       authenticated: null,
-      selectedContact: {}
+      selectedContact: {},
+      isModalOpen: false,
     };
     this.checkAuthentication = this.checkAuthentication.bind(this);
     this.checkAuthentication();
@@ -44,7 +46,7 @@ export default withAuth(class Home extends Component {
             <div className="row">
               <div className="col-lg-12 g-mb-50 g-mb-0--lg">
 
-                <a href="#modal1" data-modal-target="#modal1" data-modal-effect="fadein" className="btn btn-md u-btn-outline-lightgray g-mr-10 g-mb-15">
+                <a className="btn btn-md u-btn-outline-lightgray g-mr-10 g-mb-15" onClick={() => this.setState({isModalOpen: true})}>
                   <i className="fa fa-user-plus"></i>
                 </a>
 
@@ -64,6 +66,11 @@ export default withAuth(class Home extends Component {
               </div>
             </div>
           </div>
+          <AddContactModal isOpen={this.state.isModalOpen} onRequestClose={() => {
+
+              this.setState({isModalOpen:false})
+          }
+          } />
         </section>
     );
   }
