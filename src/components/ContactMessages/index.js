@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import fetch from 'isomorphic-fetch';
 import {withAuth} from '@okta/okta-react';
+import {REACT_APP_API_BASE_URL} from "../../config";
 
 const MAX_CHARS = 160;
 
@@ -25,7 +26,7 @@ const Message = withAuth(class Message extends Component {
     console.log(this.state.contact.name)
 
     try {
-      await fetch(`http://localhost:3000/api/contacts/${this.state.contact.id}/messages`, {
+      await fetch(`${REACT_APP_API_BASE_URL}/api/contacts/${this.state.contact.id}/messages`, {
         method: 'POST',
         headers: {
           Authorization: 'Bearer ' + await this.props.auth.getAccessToken(),
@@ -39,14 +40,13 @@ const Message = withAuth(class Message extends Component {
 
       this.props.onStateChange();
     } catch (err) {
-      // handle error as needed
-      console.log(err)
+      console.error(err)
     }
   }
 
   async handleOnRemove() {
     try {
-      await fetch(`http://localhost:3000/api/messages/${this.state.id}`, {
+      await fetch(`${REACT_APP_API_BASE_URL}/api/messages/${this.state.id}`, {
         method: 'DELETE',
         headers: {
           Authorization: 'Bearer ' + await this.props.auth.getAccessToken(),
@@ -57,7 +57,6 @@ const Message = withAuth(class Message extends Component {
       this.setState({enabled: false})
       this.props.onStateChange();
     } catch (err) {
-      // handle error as needed
       console.log(err)
     }
   }
@@ -69,7 +68,7 @@ const Message = withAuth(class Message extends Component {
 
   async handleOnUpdate() {
     try {
-      await fetch(`http://localhost:3000/api/messages/${this.state.id}`, {
+      await fetch(`${REACT_APP_API_BASE_URL}/api/messages/${this.state.id}`, {
         method: 'PUT',
         headers: {
           Authorization: 'Bearer ' + await this.props.auth.getAccessToken(),
@@ -85,8 +84,7 @@ const Message = withAuth(class Message extends Component {
 
       this.setState({enabled: false})
     } catch (err) {
-      // handle error as needed
-      console.log(err)
+      console.error(err)
     }
 
   }
@@ -212,7 +210,7 @@ export default withAuth(class ContactMessages extends Component {
 
   async getMessages(contactId) {
     try {
-      const response = await fetch(`http://localhost:3000/api/contacts/${contactId}/messages`, {
+      const response = await fetch(`${REACT_APP_API_BASE_URL}/api/contacts/${contactId}/messages`, {
         headers: {
           Authorization: 'Bearer ' + await this.props.auth.getAccessToken()
         }
@@ -220,7 +218,7 @@ export default withAuth(class ContactMessages extends Component {
       const data = await response.json();
       this.setState({messages: data});
     } catch (err) {
-      // handle error as needed
+      console.error(err);
     }
   }
 

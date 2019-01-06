@@ -1,13 +1,14 @@
 import React, {Component} from "react";
 import classnames from 'classnames';
 import fetch from 'isomorphic-fetch';
-import { withAuth } from '@okta/okta-react';
+import {withAuth} from '@okta/okta-react';
+import {REACT_APP_API_BASE_URL} from '../../config'
 
 const ContactItem = ({item, active, onClick}) => {
   const activeItem = classnames({active});
   const fontColor = classnames({'g-color-gray-dark-v5': !active});
 
-  return <a href={`#${item.id}`} className={`list-group-item justify-content-between ${activeItem}`} onClick={() => onClick(item)} >
+  return <a href={`#${item.id}`} className={`list-group-item justify-content-between ${activeItem}`} onClick={() => onClick(item)}>
     <div className='d-block'>
       <div className='g-mb-5'>
         <h4 className={`h5 ${fontColor} g-mb-0`}>{item.name}</h4>
@@ -26,16 +27,16 @@ export default withAuth(class ContactListPane extends Component {
 
   async componentDidMount() {
     try {
-      const response = await fetch('http://localhost:3000/api/contacts', {
+      const response = await fetch(`${REACT_APP_API_BASE_URL}/api/contacts`, {
         headers: {
           Authorization: 'Bearer ' + await this.props.auth.getAccessToken()
         }
       });
       const data = await response.json();
-      this.setState({ contacts: data });
+      this.setState({contacts: data});
       this.handleOnClick(data[0])
     } catch (err) {
-      // handle error as needed
+      console.error(err);
     }
   }
 
@@ -68,7 +69,7 @@ export default withAuth(class ContactListPane extends Component {
           </div>
 
           <div className='list-group list-group-border-0 g-mb-40 g-max-height-70vh g-overflow-y-auto'>
-            {items.map((item) => <ContactItem key={item.id} item={item} onClick={this.handleOnClick}/>)}
+            {items.map((item) => <ContactItem key={item.id} item={item} onClick={this.handleOnClick} />)}
             {items.length === 0 &&
             <div>
               No contacts found...

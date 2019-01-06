@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import fetch from 'isomorphic-fetch';
 import {withAuth} from '@okta/okta-react';
+import { REACT_APP_API_BASE_URL } from '../../config'
 
 export default withAuth(class ContactHistory extends Component {
   state = {
@@ -10,7 +11,7 @@ export default withAuth(class ContactHistory extends Component {
 
   async componentWillReceiveProps(newProps){
     try {
-      const response = await fetch(`http://localhost:3000/api/contacts/${newProps.contact.id}/preferences`, {
+      const response = await fetch(`${REACT_APP_API_BASE_URL}/api/contacts/${newProps.contact.id}/preferences`, {
         headers: {
           Authorization: 'Bearer ' + await this.props.auth.getAccessToken()
         }
@@ -19,7 +20,7 @@ export default withAuth(class ContactHistory extends Component {
 
       this.setState({ preferences: data });
     } catch (err) {
-      // handle error as needed
+      console.error(err);
     }
   }
 
