@@ -25,7 +25,7 @@ const Message = withAuth(class Message extends Component {
     console.log(this.state.contact.name)
 
     try {
-      const response = await fetch(`http://localhost:3000/api/contacts/${this.state.contact.id}/messages`, {
+      await fetch(`http://localhost:3000/api/contacts/${this.state.contact.id}/messages`, {
         method: 'POST',
         headers: {
           Authorization: 'Bearer ' + await this.props.auth.getAccessToken(),
@@ -46,7 +46,7 @@ const Message = withAuth(class Message extends Component {
 
   async handleOnRemove() {
     try {
-      const response = await fetch(`http://localhost:3000/api/messages/${this.state.id}`, {
+      await fetch(`http://localhost:3000/api/messages/${this.state.id}`, {
         method: 'DELETE',
         headers: {
           Authorization: 'Bearer ' + await this.props.auth.getAccessToken(),
@@ -69,7 +69,7 @@ const Message = withAuth(class Message extends Component {
 
   async handleOnUpdate() {
     try {
-      const response = await fetch(`http://localhost:3000/api/messages/${this.state.id}`, {
+      await fetch(`http://localhost:3000/api/messages/${this.state.id}`, {
         method: 'PUT',
         headers: {
           Authorization: 'Bearer ' + await this.props.auth.getAccessToken(),
