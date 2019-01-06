@@ -66,15 +66,15 @@ class TextField extends Component {
                      ref='textField'
               />
               <div className='input-group-append'>
-                {this.props.onChange &&
+                {this.props.onChange && this.state.disabled &&
+                  <span className='input-group-text rounded-0 g-bg-white g-color-gray-light-v1 g-color-green--hover g-cursor-pointer'>
+                    <i className='icon-pencil'></i>
+                  </span>
+                }
+                {this.props.onChange && !this.state.disabled &&
                   <span className='input-group-text rounded-0 g-bg-white g-color-gray-light-v1 g-color-green--hover g-cursor-pointer'
                         onClick={this.save}>
-                    {this.state.disabled &&
-                    <i className='icon-pencil'></i>
-                    }
-                    {!this.state.disabled &&
                     <i className=' fa fa-save'> Save</i>
-                    }
                   </span>
                 }
 
