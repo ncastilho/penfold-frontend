@@ -16,9 +16,9 @@ class ContactInfo extends Component {
 
     return (
         <div>
-            <TextField name='Name' value={this.state.contact.name} disabled={true} onChange={() => {}} />
-            <TextField name='Email&nbsp;address' value={this.state.contact.email} disabled={true} onChange={() => {}} />
-            <TextField name='Mobile&nbsp;number' value={this.state.contact.mobile} disabled={true} onChange={() => {}} />
+            <TextField name='Name' value={this.state.contact.name} disabled={true} onChange={() => {throw new Error('TODO')}} />
+            <TextField name='Email&nbsp;address' value={this.state.contact.email} disabled={true} onChange={() => {throw new Error('TODO')}} />
+            <TextField name='Mobile&nbsp;number' value={this.state.contact.mobile} disabled={true} onChange={() => {throw new Error('TODO')}} />
         </div>
     )
   };

@@ -37,6 +37,8 @@ class TextField extends Component {
       try {
         this.props.onChange(this.state.value);
       } catch (e) {
+        console.log(e);
+
         this.setState({
               value: this.state.oldValue,
             }
