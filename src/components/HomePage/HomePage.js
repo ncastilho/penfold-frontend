@@ -46,7 +46,7 @@ export default withAuth(class Home extends Component {
             <div className="row">
               <div className="col-lg-12 g-mb-50 g-mb-0--lg">
 
-                <a className="btn btn-md u-btn-outline-lightgray g-mr-10 g-mb-15" onClick={() => this.setState({isModalOpen: true})}>
+                <a href='#!' className="btn btn-md u-btn-outline-lightgray g-mr-10 g-mb-15" onClick={() => this.setState({isModalOpen: true})}>
                   <i className="fa fa-user-plus"></i>
                 </a>
 
