@@ -3,6 +3,8 @@ import {withAuth} from '@okta/okta-react';
 import Modal from 'react-modal';
 import TextField from "../TextField";
 
+Modal.setAppElement('#root')
+
 class AddContactModal extends Component {
   state = {
     name: '',

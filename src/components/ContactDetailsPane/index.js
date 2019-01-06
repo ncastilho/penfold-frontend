@@ -13,11 +13,11 @@ class ContactDetailsPane extends Component {
   };
 
   componentWillReceiveProps(newProps){
-    this.setState({contact: newProps.contact})
+    this.setState({contact: newProps.contact || {}})
   }
 
   render() {
-    if (Object.keys(this.state.contact).length === 0) return <div>Loading...</div>;
+    if (Object.keys(this.state.contact).length === 0) return null;
     return (
         <Tabs>
           <TabList>
