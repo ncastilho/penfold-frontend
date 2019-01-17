@@ -29,28 +29,16 @@ const active = item.active;
 class ContactListPane extends Component {
   state = {
     searchTerm: '',
-    contacts: [],
+    contacts: this.props.contacts || [],
   };
-
-  async componentDidMount() {
-    try {
-      const response = await fetch(`${REACT_APP_API_BASE_URL}/api/contacts`, {
-        headers: {
-          Authorization: 'Bearer ' + await this.props.auth.getAccessToken()
-        }
-      });
-
-      const data = await response.json();
-
-      this.setState({contacts: data});
-    } catch (err) {
-      console.error(err);
-    }
-  }
 
   handleSearchTerm = (e) => {
     this.setState({searchTerm: e.target.value});
   };
+
+  componentWillReceiveProps(nextProps, nextContext) {
+    this.setState({contacts: nextProps.contacts})
+  }
 
   render() {
     if (!this.state.contacts) return <div>Loading...</div>;
@@ -64,8 +52,6 @@ class ContactListPane extends Component {
     const items = this.getFilteredItems(contacts, this.state.searchTerm);
 
     return (
-
-
         <div>
           <div className='input-group g-brd-primary--focus'>
             <input className='form-control form-control-md border-right-0 rounded-0 pr-0'

@@ -7,6 +7,8 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
+import fetch from "isomorphic-fetch";
+import {REACT_APP_API_BASE_URL} from "../../config";
 
 class Home extends Component {
   constructor(props) {
@@ -15,6 +17,7 @@ class Home extends Component {
       authenticated: null,
       selectedContact: {},
       isModalOpen: false,
+      contacts: [],
     };
     this.checkAuthentication = this.checkAuthentication.bind(this);
     this.checkAuthentication();
@@ -25,6 +28,27 @@ class Home extends Component {
     const authenticated = await this.props.auth.isAuthenticated();
     if (authenticated !== this.state.authenticated) {
       this.setState({ authenticated });
+    }
+  }
+
+  async componentDidMount() {
+    try {
+      const response = await fetch(`${REACT_APP_API_BASE_URL}/api/contacts`, {
+        headers: {
+          Authorization: 'Bearer ' + await this.props.auth.getAccessToken()
+        }
+      });
+
+      const data = await response.json();
+
+      this.setState((prevState) => {
+        return {
+          ...prevState,
+          contacts: data
+        }
+      });
+    } catch (err) {
+      console.error(err);
     }
   }
 
@@ -52,19 +76,19 @@ class Home extends Component {
               <div className="row">
                 <div className="col-lg-12 g-mb-50 g-mb-0--lg">
 
-                  <a href='#!' className="btn btn-md u-btn-outline-lightgray g-mr-10 g-mb-15" onClick={() => this.setState({isModalOpen: true})}>
+                  <button className="btn btn-md u-btn-outline-lightgray g-mr-10 g-mb-15" onClick={() => this.setState({isModalOpen: true})}>
                     <i className="fa fa-user-plus"></i>
-                  </a>
+                  </button>
 
-                  <a href='#!' onClick={this.logout} className="btn btn-md u-btn-outline-lightgray g-mr-10 g-mb-15">
+                  <button onClick={this.logout} className="btn btn-md u-btn-outline-lightgray g-mr-10 g-mb-15">
                     <i className="fa fa-sign-out"></i>
-                  </a>
+                  </button>
 
                 </div>
               </div>
               <div className="row">
                 <div className="col-lg-3 g-mb-50 g-mb-0--lg">
-                  <ContactListPane onSelected={this.handleOnSelected} />
+                  <ContactListPane contacts={this.state.contacts} onSelected={this.handleOnSelected} />
                 </div>
 
                 <div className="col-lg-9">
@@ -72,10 +96,19 @@ class Home extends Component {
                 </div>
               </div>
             </div>
-            <AddContactModal isOpen={this.state.isModalOpen} onRequestClose={() => {
-
+            <AddContactModal isOpen={this.state.isModalOpen} onRequestClose={(data) => {
                 this.setState({isModalOpen:false})
-            }
+
+                if((data||{}).id) {
+                  this.setState((prevState) => {
+                    return {
+                      ...prevState,
+                      contacts: [...prevState.contacts, data]
+                    }
+                  });
+                  this.props.history.push(`/contacts/${data.id}`)
+                }
+              }
             } />
           </section>
           <Footer />

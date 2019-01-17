@@ -52,6 +52,8 @@ class AddContactModal extends Component {
       if (!response.ok) {
         throw Error(response.statusText);
       } else {
+        const data = await response.json();
+
         this.setState({
           form: {
             name: '',
@@ -61,7 +63,7 @@ class AddContactModal extends Component {
           errors: [],
           httpError: false,
         });
-        this.props.onRequestClose();
+        this.props.onRequestClose(data);
       }
     } catch (err) {
       this.setState({httpError: true})
