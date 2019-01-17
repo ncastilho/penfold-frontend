@@ -1,8 +1,6 @@
 import React, {Component} from "react";
 import classnames from 'classnames';
-import fetch from 'isomorphic-fetch';
 import {withAuth} from '@okta/okta-react';
-import {REACT_APP_API_BASE_URL} from '../../config'
 import {Link, withRouter} from 'react-router-dom';
 import {compose} from "recompose";
 
