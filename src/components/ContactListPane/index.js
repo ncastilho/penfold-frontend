@@ -3,23 +3,30 @@ import classnames from 'classnames';
 import fetch from 'isomorphic-fetch';
 import {withAuth} from '@okta/okta-react';
 import {REACT_APP_API_BASE_URL} from '../../config'
+import {Link, withRouter} from 'react-router-dom';
+import {compose} from "recompose";
 
-const ContactItem = ({item, active, onClick}) => {
+const ContactItem = ({item}) => {
+
+const active = item.active;
+
   const activeItem = classnames({active});
   const fontColor = classnames({'g-color-gray-dark-v5': !active});
 
-  return <a href={`#${item.id}`} className={`list-group-item justify-content-between ${activeItem}`} onClick={() => onClick(item)}>
-    <div className='d-block'>
-      <div className='g-mb-5'>
-        <h4 className={`h5 ${fontColor} g-mb-0`}>{item.name}</h4>
-      </div>
-      <em className={`d-block g-font-style-normal ${fontColor} g-font-size-13 g-mb-2`}>{item.email}</em>
-      <em className={`d-block g-font-style-normal ${fontColor} g-font-size-12`}>{item.mobile}</em>
-    </div>
-  </a>;
+  return(
+    <Link className={`list-group-item justify-content-between ${activeItem}`} to={`/contacts/${item.id}`}>
+        <div className='d-block'>
+          <div className='g-mb-5'>
+            <h4 className={`h5 ${fontColor} g-mb-0`}>{item.name}</h4>
+          </div>
+          <em className={`d-block g-font-style-normal ${fontColor} g-font-size-13 g-mb-2`}>{item.email}</em>
+          <em className={`d-block g-font-style-normal ${fontColor} g-font-size-12`}>{item.mobile}</em>
+        </div>
+    </Link>
+  );
 };
 
-export default withAuth(class ContactListPane extends Component {
+class ContactListPane extends Component {
   state = {
     searchTerm: '',
     contacts: [],
@@ -32,9 +39,10 @@ export default withAuth(class ContactListPane extends Component {
           Authorization: 'Bearer ' + await this.props.auth.getAccessToken()
         }
       });
+
       const data = await response.json();
+
       this.setState({contacts: data});
-      this.handleOnClick(data[0])
     } catch (err) {
       console.error(err);
     }
@@ -44,16 +52,20 @@ export default withAuth(class ContactListPane extends Component {
     this.setState({searchTerm: e.target.value});
   };
 
-  handleOnClick = (contact) => {
-    this.props.onSelected(contact)
-  };
-
   render() {
     if (!this.state.contacts) return <div>Loading...</div>;
 
-    const items = this.getFilteredItems(this.state.contacts, this.state.searchTerm);
+    const { match: { params } } = this.props;
+
+    const contacts = this.state.contacts.map((item) => {
+      return params.contactId === item.id ? Object.assign({}, item, {active: true}) : item
+    });
+
+    const items = this.getFilteredItems(contacts, this.state.searchTerm);
 
     return (
+
+
         <div>
           <div className='input-group g-brd-primary--focus'>
             <input className='form-control form-control-md border-right-0 rounded-0 pr-0'
@@ -69,7 +81,7 @@ export default withAuth(class ContactListPane extends Component {
           </div>
 
           <div className='list-group list-group-border-0 g-mb-40 g-max-height-70vh g-overflow-y-auto'>
-            {items.map((item) => <ContactItem key={item.id} item={item} onClick={this.handleOnClick} />)}
+            {items.map((item) => <ContactItem key={item.id} item={item} />)}
             {items.length === 0 &&
             <div>
               No contacts found...
@@ -83,4 +95,9 @@ export default withAuth(class ContactListPane extends Component {
   getFilteredItems = (items, searchTerm) => {
     return items.filter((item) => item.name.match(new RegExp(searchTerm, 'gi')));
   }
-});
+};
+
+export default compose(
+    withAuth,
+    withRouter,
+)(ContactListPane);

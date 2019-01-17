@@ -17,7 +17,11 @@ class App extends React.Component {
           <Security issuer={config.issuer}
                     client_id={config.client_id}
                     redirect_uri={config.redirect_uri}>
+
+            {/*TODO condense these secured routes*/}
             <SecureRoute path='/' exact={true} component={HomePage} />
+            <SecureRoute path='/contacts/:contactId' exact={true} component={HomePage} />
+
             <Route path='/implicit/callback' component={ImplicitCallback} />
           </Security>
         </React.Fragment>

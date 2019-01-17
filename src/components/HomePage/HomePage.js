@@ -5,8 +5,10 @@ import ContactDetailsPane from '../ContactDetailsPane';
 import AddContactModal from '../AddContactModal';
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
+import { compose } from 'recompose';
+import { withRouter } from 'react-router-dom';
 
-export default withAuth(class Home extends Component {
+class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -44,40 +46,45 @@ export default withAuth(class Home extends Component {
 
     return (
         <React.Fragment>
-        <Header />
-        <section className="g-min-height-80vh">
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-12 g-mb-50 g-mb-0--lg">
+          <Header />
+          <section className="g-min-height-80vh">
+            <div className="container">
+              <div className="row">
+                <div className="col-lg-12 g-mb-50 g-mb-0--lg">
 
-                <a href='#!' className="btn btn-md u-btn-outline-lightgray g-mr-10 g-mb-15" onClick={() => this.setState({isModalOpen: true})}>
-                  <i className="fa fa-user-plus"></i>
-                </a>
+                  <a href='#!' className="btn btn-md u-btn-outline-lightgray g-mr-10 g-mb-15" onClick={() => this.setState({isModalOpen: true})}>
+                    <i className="fa fa-user-plus"></i>
+                  </a>
 
-                <a href='#!' onClick={this.logout} className="btn btn-md u-btn-outline-lightgray g-mr-10 g-mb-15">
-                  <i className="fa fa-sign-out"></i>
-                </a>
+                  <a href='#!' onClick={this.logout} className="btn btn-md u-btn-outline-lightgray g-mr-10 g-mb-15">
+                    <i className="fa fa-sign-out"></i>
+                  </a>
 
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-lg-3 g-mb-50 g-mb-0--lg">
+                  <ContactListPane onSelected={this.handleOnSelected} />
+                </div>
+
+                <div className="col-lg-9">
+                  <ContactDetailsPane contact={this.state.contact} />
+                </div>
               </div>
             </div>
-            <div className="row">
-              <div className="col-lg-3 g-mb-50 g-mb-0--lg">
-                <ContactListPane onSelected={this.handleOnSelected} />
-              </div>
+            <AddContactModal isOpen={this.state.isModalOpen} onRequestClose={() => {
 
-              <div className="col-lg-9">
-                <ContactDetailsPane contact={this.state.contact} />
-              </div>
-            </div>
-          </div>
-          <AddContactModal isOpen={this.state.isModalOpen} onRequestClose={() => {
-
-              this.setState({isModalOpen:false})
-          }
-          } />
-        </section>
-        <Footer />
+                this.setState({isModalOpen:false})
+            }
+            } />
+          </section>
+          <Footer />
         </React.Fragment>
     );
   }
-});
+};
+
+export default compose(
+    withAuth,
+    withRouter,
+)(Home);

@@ -6,6 +6,6 @@ html {
     min-width: 90px;
 }
 
-.u-header, .u-header__section, .navbar {
-    z-index: -1000;
+.u-header, .u-header__section, .navbar, .list-group-item.active {
+    z-index: -10;
 }
