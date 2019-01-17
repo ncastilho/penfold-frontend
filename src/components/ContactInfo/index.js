@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {withAuth} from '@okta/okta-react';
-import TextField from '../TextField';
+// import TextField from '../TextField';
 
 class ContactInfo extends Component {
   state = {
@@ -16,9 +16,9 @@ class ContactInfo extends Component {
 
     return (
         <div>
-            <TextField name='Name' value={this.state.contact.name} disabled={true} onChange={() => {throw new Error('TODO')}} />
-            <TextField name='Email&nbsp;address' value={this.state.contact.email} disabled={true} onChange={() => {throw new Error('TODO')}} />
-            <TextField name='Mobile&nbsp;number' value={this.state.contact.mobile} disabled={true} onChange={() => {throw new Error('TODO')}} />
+            {/*<TextField name='Name' value={this.state.contact.name} disabled={true} onChange={() => {throw new Error('TODO')}} />*/}
+            {/*<TextField name='Email&nbsp;address' value={this.state.contact.email} disabled={true} onChange={() => {throw new Error('TODO')}} />*/}
+            {/*<TextField name='Mobile&nbsp;number' value={this.state.contact.mobile} disabled={true} onChange={() => {throw new Error('TODO')}} />*/}
         </div>
     )
   };

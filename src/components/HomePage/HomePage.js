@@ -3,6 +3,8 @@ import { withAuth } from '@okta/okta-react';
 import ContactListPane from '../ContactListPane'
 import ContactDetailsPane from '../ContactDetailsPane';
 import AddContactModal from '../AddContactModal';
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
 
 export default withAuth(class Home extends Component {
   constructor(props) {
@@ -41,6 +43,8 @@ export default withAuth(class Home extends Component {
     if (this.state.authenticated === null) return null;
 
     return (
+        <React.Fragment>
+        <Header />
         <section className="g-min-height-80vh">
           <div className="container">
             <div className="row">
@@ -72,6 +76,8 @@ export default withAuth(class Home extends Component {
           }
           } />
         </section>
+        <Footer />
+        </React.Fragment>
     );
   }
 });
