@@ -103,7 +103,7 @@ class Home extends Component {
                   this.setState((prevState) => {
                     return {
                       ...prevState,
-                      contacts: [...prevState.contacts, data]
+                      contacts: [data, ...prevState.contacts]
                     }
                   });
                   this.props.history.push(`/contacts/${data.id}`)
