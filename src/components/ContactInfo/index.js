@@ -26,6 +26,7 @@ class ContactInfo extends Component {
 
   componentWillReceiveProps(newProps){
     this.setState({
+      id: newProps.contact.id,
       form: {
         name: newProps.contact.name,
         email: newProps.contact.email,
