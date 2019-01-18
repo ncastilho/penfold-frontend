@@ -71,7 +71,7 @@ class Home extends Component {
     return (
         <React.Fragment>
           <Header />
-          <section className="g-min-height-80vh">
+          <section className="">
             <div className="container">
               <div className="row">
                 <div className="col-lg-12 g-mb-50 g-mb-0--lg">
