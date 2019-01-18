@@ -29,4 +29,18 @@ footer {
 
 li.react-tabs__tab--selected {
     border-radius: 0;
+    border-color: #ccc;
 }
+
+ul.react-tabs__tab-list {
+    border-bottom: 1px solid #ccc;
+}
+
+input.rc-time-picker-input {
+    width: 50px;
+}
+
+div.rc-time-picker-panel-select li {
+    width: auto;
+}
+

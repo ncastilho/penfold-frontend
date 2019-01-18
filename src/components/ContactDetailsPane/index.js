@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {withAuth} from '@okta/okta-react';
 import ContactInfo from "../ContactInfo";
-// import ContactMessages from "../ContactMessages";
+import ContactMessages from "../ContactMessages";
 // import ContactHistory from "../ContactHistory";
 // import ContactPreferences from "../ContactPreferences";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
@@ -22,7 +22,7 @@ class ContactDetailsPane extends Component {
         <Tabs>
           <TabList>
             <Tab>Details</Tab>
-            {/*<Tab>Messages</Tab>*/}
+            <Tab>Messages</Tab>
             {/*<Tab>History</Tab>*/}
             {/*<Tab>Settings</Tab>*/}
           </TabList>
@@ -34,12 +34,12 @@ class ContactDetailsPane extends Component {
             <ContactInfo contact={this.state.contact} onChange={this.props.onRequestClose}/>
           </TabPanel>
 
-          {/*<TabPanel>*/}
-            {/*<h2 className="h4 g-font-weight-300">Manage Messages</h2>*/}
-            {/*<p className="g-mb-5">Add messages, change send time and so on.</p>*/}
+          <TabPanel>
+            <h2 className="h4 g-font-weight-300">Manage Messages</h2>
+            <p className="g-mb-5">Add messages, change send time and so on.</p>
 
-            {/*<ContactMessages contact={this.state.contact} />*/}
-          {/*</TabPanel>*/}
+            <ContactMessages contact={this.state.contact} />
+          </TabPanel>
 
           {/*<TabPanel>*/}
             {/*<h2 className="h4 g-font-weight-300">Message History</h2>*/}

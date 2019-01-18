@@ -2,6 +2,10 @@ import React, {Component} from "react";
 import fetch from 'isomorphic-fetch';
 import {withAuth} from '@okta/okta-react';
 import {REACT_APP_API_BASE_URL} from "../../config";
+import moment from 'moment';
+import TimePicker from 'rc-time-picker';
+
+import 'rc-time-picker/assets/index.css';
 
 const MAX_CHARS = 160;
 
@@ -121,6 +125,20 @@ const Message = withAuth(class Message extends Component {
   }
 
   render() {
+    let defaultValue = moment({
+      hour: moment().hour(),
+      minute: '00',
+    });
+
+    if(moment().minutes() >= 30) {
+      defaultValue = moment({
+        hour: moment().hour(),
+        minute: '30',
+      });
+    }
+
+    console.log(defaultValue)
+
     const {content, scheduledTime, enabled} = this.state;
     const remaining = MAX_CHARS - (content ? content.length : 0);
 
@@ -145,7 +163,7 @@ const Message = withAuth(class Message extends Component {
       {this.isNew() &&
       <small className='form-text g-font-size-default g-mt-10'>
         <i className='icon-clock g-mr-5'></i>
-        <a href='#!'onClick={this.handleOnSchedule}>Schedule</a>
+        <TimePicker defaultValue={defaultValue} showSecond={false} minuteStep={30} /><a href='#!'onClick={this.handleOnSchedule}></a>
         <span> | </span>
         <a href='#!' onClick={this.handleOnAdd}>Add</a>
         {content &&
