@@ -68,6 +68,10 @@ class Home extends Component {
   render() {
     if (this.state.authenticated === null) return null;
 
+    const { match: { params } } = this.props;
+
+    const contact = this.state.contacts.find((item) => params.contactId === item.id);
+
     return (
         <React.Fragment>
           <Header />
@@ -92,7 +96,23 @@ class Home extends Component {
                 </div>
 
                 <div className="col-lg-9">
-                  <ContactDetailsPane contact={this.state.contact} />
+                  <ContactDetailsPane contact={contact} onRequestClose={(data) => {
+                    // console.log(data)
+
+                    if((data||{}).id) {
+                      const list = this.state.contacts;
+
+                      list[list.findIndex(el => el.id === data.id)] = data;
+
+                      this.setState((prevState) => {
+                        return {
+                          ...prevState,
+                          contacts: [...list]
+                        }
+                      });
+                    }
+                  }
+                  } />
                 </div>
               </div>
             </div>

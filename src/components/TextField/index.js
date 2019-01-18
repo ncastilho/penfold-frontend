@@ -11,14 +11,14 @@ const TextField = ({name, label, value, disabled, placeholder, errors, onChange}
 
   return (
       <div className={cx}>
-        <label className='col-form-label g-mb-10'>{label}</label>
-          <input className='form-control form-control-md rounded-0 pr-0'
-                 type='text'
-                 value={value}
-                 onChange={(e) => onChange(name, e.target.value)}
-                 disabled={disabled}
-                 placeholder={placeholder}
-          />
+        <label className='col-form-label'>{label}</label>
+        <input className='form-control form-control-md rounded-0 pr-0'
+               type='text'
+               value={value}
+               onChange={(e) => onChange(name, e.target.value)}
+               disabled={disabled}
+               placeholder={placeholder}
+        />
         {errorFeedback}
       </div>
   );

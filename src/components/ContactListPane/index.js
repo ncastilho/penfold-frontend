@@ -12,7 +12,7 @@ const active = item.active;
   const fontColor = classnames({'g-color-gray-dark-v5': !active});
 
   return(
-    <Link className={`list-group-item g-bg-primary-opacity-0_2--hover justify-content-between ${activeItem}`} to={`/contacts/${item.id}`}>
+    <Link className={`list-group-item justify-content-between ${activeItem}`} to={`/contacts/${item.id}`}>
         <div className='d-block'>
           <div className='g-mb-5'>
             <h4 className={`h5 ${fontColor} g-mb-0`}>{item.name}</h4>

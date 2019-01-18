@@ -26,3 +26,7 @@ footer {
 .u-header, .u-header__section, .navbar, .list-group-item.active {
     z-index: -10;
 }
+
+li.react-tabs__tab--selected {
+    border-radius: 0;
+}

@@ -22,38 +22,38 @@ class ContactDetailsPane extends Component {
         <Tabs>
           <TabList>
             <Tab>Details</Tab>
-            <Tab>Messages</Tab>
-            <Tab>History</Tab>
-            <Tab>Settings</Tab>
+            {/*<Tab>Messages</Tab>*/}
+            {/*<Tab>History</Tab>*/}
+            {/*<Tab>Settings</Tab>*/}
           </TabList>
 
           <TabPanel>
             <h2 className="h4 g-font-weight-300">Manage Name, Email Address and Phone Number</h2>
             <p>Below are name, email and mobile contacts on file for this person.</p>
 
-            <ContactInfo contact={this.state.contact} />
+            <ContactInfo contact={this.state.contact} onChange={this.props.onRequestClose}/>
           </TabPanel>
 
-          <TabPanel>
-            <h2 className="h4 g-font-weight-300">Manage Messages</h2>
-            <p className="g-mb-5">Add messages, change send time and so on.</p>
+          {/*<TabPanel>*/}
+            {/*<h2 className="h4 g-font-weight-300">Manage Messages</h2>*/}
+            {/*<p className="g-mb-5">Add messages, change send time and so on.</p>*/}
 
-            <ContactMessages contact={this.state.contact} />
-          </TabPanel>
+            {/*<ContactMessages contact={this.state.contact} />*/}
+          {/*</TabPanel>*/}
 
-          <TabPanel>
-            <h2 className="h4 g-font-weight-300">Message History</h2>
-            <p className="g-mb-25">Below shows the history of triggered messages and their status.</p>
+          {/*<TabPanel>*/}
+            {/*<h2 className="h4 g-font-weight-300">Message History</h2>*/}
+            {/*<p className="g-mb-25">Below shows the history of triggered messages and their status.</p>*/}
 
-            <ContactHistory contact={this.state.contact} />
-          </TabPanel>
+            {/*<ContactHistory contact={this.state.contact} />*/}
+          {/*</TabPanel>*/}
 
-          <TabPanel>
-            <h2 className="h4 g-font-weight-300">Manage Settings</h2>
-            <p className="g-mb-25">Below are the settings you can change for this person.</p>
+          {/*<TabPanel>*/}
+            {/*<h2 className="h4 g-font-weight-300">Manage Settings</h2>*/}
+            {/*<p className="g-mb-25">Below are the settings you can change for this person.</p>*/}
 
-            <ContactPreferences contact={this.state.contact} />
-          </TabPanel>
+            {/*<ContactPreferences contact={this.state.contact} />*/}
+          {/*</TabPanel>*/}
         </Tabs>
     )
   };
