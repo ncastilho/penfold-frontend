@@ -25,7 +25,13 @@ class ContactInfo extends Component {
   }
 
   componentWillReceiveProps(newProps){
-    this.setState({contact: newProps.contact})
+    this.setState({
+      form: {
+        name: newProps.contact.name,
+        email: newProps.contact.email,
+        mobile: newProps.contact.mobile,
+      },
+    })
   }
 
   async handleSave() {
