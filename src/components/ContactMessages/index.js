@@ -37,7 +37,7 @@ const Message = withAuth(class Message extends Component {
       ...this.props.message,
       enabled: this.props.message ? false : true,
       contact: this.props.contact,
-      scheduledTime: defaultValue.format('HH:mm'),
+      scheduledTime: (this.props.message||{}).scheduledTime || defaultValue.format('HH:mm'),
     }
 
   }
@@ -119,7 +119,7 @@ const Message = withAuth(class Message extends Component {
     if(!value) {
       return;
     }
-    this.setState({ scheduledTime: `${value.hour()}:${value.minutes()}` });
+    this.setState({ scheduledTime: value.format('HH:mm', {trim: false}) });
   }
 
   handleOnTyping = (e) => {
