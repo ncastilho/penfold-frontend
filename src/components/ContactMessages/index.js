@@ -10,11 +10,7 @@ import 'rc-time-picker/assets/index.css';
 const MAX_CHARS = 160;
 
 const Message = withAuth(class Message extends Component {
-  state = {
-    ...this.props.message,
-    enabled: this.props.message ? false : true,
-    contact: this.props.contact,
-  }
+
 
   NEW = !this.props.message;
 
@@ -24,11 +20,29 @@ const Message = withAuth(class Message extends Component {
     this.handleOnAdd = this.handleOnAdd.bind(this);
     this.handleOnUpdate = this.handleOnUpdate.bind(this);
     this.handleOnRemove = this.handleOnRemove.bind(this);
+
+    let defaultValue = moment({
+      hour: moment().hour(),
+      minute: '00',
+    });
+
+    if(moment().minutes() >= 30) {
+      defaultValue = moment({
+        hour: moment().hour(),
+        minute: '30',
+      });
+    }
+
+    this.state = {
+      ...this.props.message,
+      enabled: this.props.message ? false : true,
+      contact: this.props.contact,
+      scheduledTime: defaultValue.format('HH:mm'),
+    }
+
   }
 
   async handleOnAdd() {
-    console.log(this.state.contact.name)
-
     try {
       await fetch(`${REACT_APP_API_BASE_URL}/api/contacts/${this.state.contact.id}/messages`, {
         method: 'POST',
@@ -38,7 +52,7 @@ const Message = withAuth(class Message extends Component {
         },
         body: JSON.stringify({
           content: this.state.content,
-          scheduledTime: '13:00'
+          scheduledTime: this.state.scheduledTime,
         })
       });
 
@@ -101,8 +115,8 @@ const Message = withAuth(class Message extends Component {
     this.setState({content: ''})
   }
 
-  handleOnSchedule = () => {
-
+  handleOnSchedule = (value) => {
+    this.setState({ scheduledTime: `${value.hour()}:${value.minutes()}` });
   }
 
   handleOnTyping = (e) => {
@@ -125,19 +139,6 @@ const Message = withAuth(class Message extends Component {
   }
 
   render() {
-    let defaultValue = moment({
-      hour: moment().hour(),
-      minute: '00',
-    });
-
-    if(moment().minutes() >= 30) {
-      defaultValue = moment({
-        hour: moment().hour(),
-        minute: '30',
-      });
-    }
-
-    console.log(defaultValue)
 
     const {content, scheduledTime, enabled} = this.state;
     const remaining = MAX_CHARS - (content ? content.length : 0);
@@ -158,13 +159,13 @@ const Message = withAuth(class Message extends Component {
       {this.isNew() &&
       <small className='form-text g-font-size-default g-mt-10'>
         <i className='icon-clock g-mr-5'></i>
-        <TimePicker defaultValue={defaultValue} showSecond={false} minuteStep={30} />
+        <TimePicker defaultValue={moment(scheduledTime, 'HH:mm')} showSecond={false} minuteStep={30} onChange={this.handleOnSchedule} />
         <span> | </span>
-        <a href='#!' onClick={this.handleOnAdd}>Add</a>
+        <button className='btn btn-xs u-btn-primary' onClick={this.handleOnAdd}>Add</button>
         {content &&
         <React.Fragment>
           <span> | </span>
-          <a href='#!' onClick={this.handleOnClear}>Clear</a>
+          <button className='btn btn-xs u-btn-darkgray' onClick={this.handleOnClear}>Clear</button>
         </React.Fragment>
         }
       </small>
@@ -174,23 +175,23 @@ const Message = withAuth(class Message extends Component {
         <i className='icon-clock g-mr-5'></i>
         Scheduled for {scheduledTime}
         <span> | </span>
-        <a href='#!' onClick={this.handleOnChange}>Change</a>
-        <a className='float-right' href='#!' onClick={this.handleOnRemove}>Remove</a>
+        <button className='btn btn-xs u-btn-primary' onClick={this.handleOnChange}>Change</button>
+        <button className='float-right btn btn-xs btn-danger' onClick={this.handleOnRemove}>Remove</button>
       </small>
       }
       {this.isEditing() &&
       <small className='form-text g-font-size-default g-mt-10'>
         <i className='icon-clock g-mr-5'></i>
-        <a href='#!' onClick={this.handleOnSchedule}>Scheduled for {scheduledTime}</a>
+        <TimePicker defaultValue={moment(scheduledTime, 'HH:mm')} showSecond={false} minuteStep={30} onChange={this.handleOnSchedule} />
         <span> | </span>
-        <a href='#!' onClick={this.handleOnUpdate}>Update</a>
+        <button className='btn btn-xs u-btn-primary' onClick={this.handleOnUpdate}>Update</button>
         {enabled &&
         <React.Fragment>
           <span> | </span>
-          <a href='#!' onClick={this.handleOnCancel}>Cancel</a>
+          <button className='btn btn-xs u-btn-darkgray' onClick={this.handleOnCancel}>Cancel</button>
         </React.Fragment>
         }
-        <a className='float-right' href='#!' onClick={this.handleOnRemove}>Remove</a>
+        <button className='float-right btn btn-xs btn-danger' onClick={this.handleOnRemove}>Remove</button>
       </small>
       }
       <hr className='g-brd-gray-light-v4 g-my-20' />
@@ -211,13 +212,11 @@ export default withAuth(class ContactMessages extends Component {
   }
 
   async componentWillReceiveProps(newProps) {
-    console.log('componentWillReceiveProps')
     await this.getMessages(newProps.contact.id)
     this.setState({contact: newProps.contact})
   }
 
   async componentDidMount() {
-    console.log('componentDidMount')
     await this.getMessages(this.state.contact.id)
   }
 

@@ -169,7 +169,7 @@ class AddContactModal extends Component {
 
           <div className="text-sm-right">
             <button className="btn u-btn-darkgray rounded-0 g-py-12 g-px-25 g-mr-10" onClick={this.handleCancel}>Cancel</button>
-            <button className="btn u-btn-primary rounded-0 g-py-12 g-px-25" onClick={this.handleSave}>Save Changes</button>
+            <button className="btn u-btn-primary rounded-0 g-py-12 g-px-25 g-width-120" onClick={this.handleSave}>Add</button>
           </div>
 
         </div>
