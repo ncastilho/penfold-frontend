@@ -154,16 +154,11 @@ const Message = withAuth(class Message extends Component {
                   disabled={!enabled}
                   value={content}>
         </textarea>
-        <div className='input-group-append'>
-          <span className='input-group-text rounded-0 g-bg-white g-color-gray-light-v1'>
-            <i className='fa fa-pencil'></i>
-          </span>
-        </div>
       </div>
       {this.isNew() &&
       <small className='form-text g-font-size-default g-mt-10'>
         <i className='icon-clock g-mr-5'></i>
-        <TimePicker defaultValue={defaultValue} showSecond={false} minuteStep={30} /><a href='#!'onClick={this.handleOnSchedule}></a>
+        <TimePicker defaultValue={defaultValue} showSecond={false} minuteStep={30} />
         <span> | </span>
         <a href='#!' onClick={this.handleOnAdd}>Add</a>
         {content &&
