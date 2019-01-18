@@ -42,6 +42,10 @@ const Message = withAuth(class Message extends Component {
 
   }
 
+  componentWillReceiveProps(nextProps, nextContext) {
+    this.setState({contact: nextProps.contact});
+  }
+
   async handleOnAdd() {
     try {
       await fetch(`${REACT_APP_API_BASE_URL}/api/contacts/${this.state.contact.id}/messages`, {
