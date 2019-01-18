@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import {withAuth} from '@okta/okta-react';
 import ContactInfo from "../ContactInfo";
-import ContactMessages from "../ContactMessages";
-import ContactHistory from "../ContactHistory";
-import ContactPreferences from "../ContactPreferences";
+// import ContactMessages from "../ContactMessages";
+// import ContactHistory from "../ContactHistory";
+// import ContactPreferences from "../ContactPreferences";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import "react-tabs/style/react-tabs.css";
 
