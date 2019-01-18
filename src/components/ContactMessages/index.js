@@ -38,6 +38,7 @@ const Message = withAuth(class Message extends Component {
       enabled: this.props.message ? false : true,
       contact: this.props.contact,
       scheduledTime: (this.props.message||{}).scheduledTime || defaultValue.format('HH:mm'),
+      defaultValue: defaultValue.format('HH:mm'),
     }
 
   }
@@ -60,6 +61,10 @@ const Message = withAuth(class Message extends Component {
         })
       });
 
+      this.setState({
+        content: '',
+        scheduledTime: this.state.defaultValue,
+      });
       this.props.onStateChange();
     } catch (err) {
       console.error(err)
@@ -84,7 +89,10 @@ const Message = withAuth(class Message extends Component {
   }
 
   handleOnChange = () => {
-    this.setState({previousContent: this.state.content, enabled: true})
+    this.setState({
+      previousContent: this.state.content, enabled: true,
+      previousScheduledTime: this.state.scheduledTime,
+    })
 
   }
 
@@ -112,11 +120,17 @@ const Message = withAuth(class Message extends Component {
   }
 
   handleOnCancel = () => {
-    this.setState({content: this.state.previousContent, enabled: false})
+    console.log(this.state.previousScheduledTime)
+    this.setState({
+      content: this.state.previousContent, enabled: false,
+      scheduledTime: this.state.previousScheduledTime,
+    })
   }
 
   handleOnClear = () => {
-    this.setState({content: ''})
+    console.log(this.state.scheduledTime)
+    console.log(this.state.defaultValue)
+    this.setState({content: '', scheduledTime: this.state.defaultValue})
   }
 
   handleOnSchedule = (value) => {
@@ -150,6 +164,8 @@ const Message = withAuth(class Message extends Component {
     const {content, scheduledTime, enabled} = this.state;
     const remaining = MAX_CHARS - (content ? content.length : 0);
 
+
+    console.log(scheduledTime)
     return <div className='form-group g-mb-20'>
       {(this.isNew() || this.isEditing()) &&
       <small className='form-text g-font-size-default g-mt-10 text-right'>{remaining} characters remaining</small>
@@ -166,7 +182,7 @@ const Message = withAuth(class Message extends Component {
       {this.isNew() &&
       <small className='form-text g-font-size-default g-mt-10'>
         <i className='icon-clock g-mr-5'></i>
-        <TimePicker defaultValue={moment(scheduledTime, 'HH:mm')} showSecond={false} minuteStep={30} onChange={this.handleOnSchedule} />
+        <TimePicker value={moment(scheduledTime, 'HH:mm')} showSecond={false} minuteStep={30} onChange={this.handleOnSchedule} />
         <span> | </span>
         <button className='btn btn-xs u-btn-primary' onClick={this.handleOnAdd}>Add</button>
         {content &&
@@ -189,7 +205,7 @@ const Message = withAuth(class Message extends Component {
       {this.isEditing() &&
       <small className='form-text g-font-size-default g-mt-10'>
         <i className='icon-clock g-mr-5'></i>
-        <TimePicker defaultValue={moment(scheduledTime, 'HH:mm')} showSecond={false} minuteStep={30} onChange={this.handleOnSchedule} />
+        <TimePicker value={moment(scheduledTime, 'HH:mm')} showSecond={false} minuteStep={30} onChange={this.handleOnSchedule} />
         <span> | </span>
         <button className='btn btn-xs u-btn-primary' onClick={this.handleOnUpdate}>Update</button>
         {enabled &&
