@@ -116,6 +116,9 @@ const Message = withAuth(class Message extends Component {
   }
 
   handleOnSchedule = (value) => {
+    if(!value) {
+      return;
+    }
     this.setState({ scheduledTime: `${value.hour()}:${value.minutes()}` });
   }
 
