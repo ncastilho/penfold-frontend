@@ -4,15 +4,38 @@ import {withAuth} from '@okta/okta-react';
 import {REACT_APP_API_BASE_URL} from '../../config'
 
 function HistoryItem({item}) {
+  let status = <span className='u-label u-label-warning g-rounded-50 g-py-5 g-min-width-90'>
+        <i className='fa fa-info g-mr-5'></i>
+      {item.state}
+      </span>;
+
+  if('SENT' === item.state || 'FORWARDED' === item.state) {
+    status = <span className='u-label u-label-info g-rounded-50 g-py-5 g-min-width-90'>
+        <i className='fa fa-send g-mr-5'></i>
+      {item.state}
+      </span>;
+  }
+
+  if('DELIVERED' === item.state) {
+    status = <span className='u-label u-label-success g-rounded-50 g-py-5 g-min-width-90'>
+        <i className='fa fa-check g-mr-5'></i>
+      {item.state}
+      </span>;
+  }
+
+  if('FAILED' === item.state) {
+    status = <span className='u-label u-label-danger g-rounded-50 g-py-5 g-min-width-90'>
+        <i className='fa fa-times g-mr-5'></i>
+      {item.state}
+      </span>;
+  }
+
   return <tr>
     <td className='align-middle'>
       <span>{item.content}</span>
     </td>
     <td className='align-middle'>
-      <span className='u-label g-bg-primary g-rounded-50 g-py-5 g-min-width-90'>
-        <i className='fa fa-check g-mr-5'></i>
-        {item.state}
-      </span>
+      {status}
     </td>
     <td className='align-middle text-nowrap'>
       <span className='d-block g-mb-5'><i className='icon-calendar g-mr-5'></i> {item.date}</span>
