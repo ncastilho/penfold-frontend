@@ -242,10 +242,6 @@ const Message = withAuth(class Message extends Component {
     const errorFeedback = errors.map((error, idx) => <small key={idx} className="form-control-feedback">{error}</small>);
 
     return <div className={cx}>
-      {(this.isNew() || this.isEditing()) &&
-      <small className='form-text g-font-size-default g-mt-10 text-right'>{remaining} characters remaining</small>
-      }
-
         <textarea className='form-control form-control-md g-resize-none rounded-0 disabled'
                   rows='4'
                   placeholder='Message...'
@@ -262,11 +258,13 @@ const Message = withAuth(class Message extends Component {
         {content &&
         <React.Fragment>
           <span> | </span>
-          <button className='btn btn-xs u-btn-darkgray' onClick={this.handleOnClear}>Clear</button>
+          <button className='btn btn-sm u-btn-darkgray' onClick={this.handleOnClear}>Clear</button>
         </React.Fragment>
         }
         <span> | </span>
-        <button className='btn btn-xs u-btn-primary' onClick={this.handleOnAdd}>Add</button>
+        <button className='btn btn-sm u-btn-primary' onClick={this.handleOnAdd}>Add</button>
+        <span> | </span>
+        <small className=''>{remaining} characters remaining</small>
       </small>
       }
       {this.isViewing() &&
@@ -274,7 +272,7 @@ const Message = withAuth(class Message extends Component {
         <i className='icon-clock g-mr-5'></i>
         Scheduled for {scheduledTime}
         <span> | </span>
-        <button className='btn btn-xs u-btn-primary' onClick={this.handleOnChange}>Change</button>
+        <button className='btn btn-sm u-btn-primary' onClick={this.handleOnChange}>Change</button>
         <button className='float-right btn btn-sm btn-danger' onClick={this.handleOnRemove}>Remove</button>
       </small>
       }
@@ -285,11 +283,13 @@ const Message = withAuth(class Message extends Component {
         {enabled &&
         <React.Fragment>
           <span> | </span>
-          <button className='btn btn-xs u-btn-darkgray' onClick={this.handleOnCancel}>Cancel</button>
+          <button className='btn btn-sm u-btn-darkgray' onClick={this.handleOnCancel}>Cancel</button>
         </React.Fragment>
         }
         <span> | </span>
-        <button className='btn btn-xs u-btn-primary' onClick={this.handleOnUpdate}>Update</button>
+        <button className='btn btn-sm u-btn-primary' onClick={this.handleOnUpdate}>Update</button>
+        <span> | </span>
+        <small className=''>{remaining} characters remaining</small>
         <button className='float-right btn btn-sm btn-danger' onClick={this.handleOnRemove}>Remove</button>
       </small>
       }
