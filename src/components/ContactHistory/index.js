@@ -67,14 +67,21 @@ class ContactHistory extends Component {
 
             <tbody>
             {history.map((item) => <HistoryItem key={item.id} item={item} />)}
+            {history.length === 0 &&
+              <tr>
+                <td colSpan='3'>No history found...</td>
+              </tr>
+            }
             </tbody>
           </table>
 
-          <hr className='g-brd-gray-light-v4 g-my-20' />
 
-          <div className='text-center g-mb-20'>
-            <a className='text-muted' href='#!'>Show more <i className='icon-arrow-down g-mr-5'></i></a>
-          </div>
+
+          {/*<hr className='g-brd-gray-light-v4 g-my-20' />*/}
+
+          {/*<div className='text-center g-mb-20'>*/}
+            {/*<a className='text-muted' href='#!'>Show more <i className='icon-arrow-down g-mr-5'></i></a>*/}
+          {/*</div>*/}
 
         </div>
     )
