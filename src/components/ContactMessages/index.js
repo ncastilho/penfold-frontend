@@ -259,14 +259,14 @@ const Message = withAuth(class Message extends Component {
       <small className='form-text g-font-size-default g-mt-10'>
         <i className='icon-clock g-mr-5'></i>
         <TimePicker value={moment(scheduledTime, 'HH:mm')} showSecond={false} minuteStep={30} onChange={this.handleOnSchedule} />
-        <span> | </span>
-        <button className='btn btn-xs u-btn-primary' onClick={this.handleOnAdd}>Add</button>
         {content &&
         <React.Fragment>
           <span> | </span>
           <button className='btn btn-xs u-btn-darkgray' onClick={this.handleOnClear}>Clear</button>
         </React.Fragment>
         }
+        <span> | </span>
+        <button className='btn btn-xs u-btn-primary' onClick={this.handleOnAdd}>Add</button>
       </small>
       }
       {this.isViewing() &&
@@ -275,22 +275,22 @@ const Message = withAuth(class Message extends Component {
         Scheduled for {scheduledTime}
         <span> | </span>
         <button className='btn btn-xs u-btn-primary' onClick={this.handleOnChange}>Change</button>
-        <button className='float-right btn btn-xs btn-danger' onClick={this.handleOnRemove}>Remove</button>
+        <button className='float-right btn btn-sm btn-danger' onClick={this.handleOnRemove}>Remove</button>
       </small>
       }
       {this.isEditing() &&
       <small className='form-text g-font-size-default g-mt-10'>
         <i className='icon-clock g-mr-5'></i>
         <TimePicker value={moment(scheduledTime, 'HH:mm')} showSecond={false} minuteStep={30} onChange={this.handleOnSchedule} />
-        <span> | </span>
-        <button className='btn btn-xs u-btn-primary' onClick={this.handleOnUpdate}>Update</button>
         {enabled &&
         <React.Fragment>
           <span> | </span>
           <button className='btn btn-xs u-btn-darkgray' onClick={this.handleOnCancel}>Cancel</button>
         </React.Fragment>
         }
-        <button className='float-right btn btn-xs btn-danger' onClick={this.handleOnRemove}>Remove</button>
+        <span> | </span>
+        <button className='btn btn-xs u-btn-primary' onClick={this.handleOnUpdate}>Update</button>
+        <button className='float-right btn btn-sm btn-danger' onClick={this.handleOnRemove}>Remove</button>
       </small>
       }
       <hr className='g-brd-gray-light-v4 g-my-20' />

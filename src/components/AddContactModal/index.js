@@ -168,8 +168,8 @@ class AddContactModal extends Component {
           <TextField label='Mobile&nbsp;number' name='mobile' value={this.state.form.mobile} onChange={this.handleField} errors={this.state.errors.mobile}/>
 
           <div className="text-sm-right">
-            <button className="btn btn-xs u-btn-darkgray g-mr-10" onClick={this.handleCancel}>Cancel</button>
-            <button className="btn btn-xs u-btn-primary" onClick={this.handleSave}>Add</button>
+            <button className="btn btn-sm u-btn-darkgray g-mr-10" onClick={this.handleCancel}>Cancel</button>
+            <button className="btn btn-sm u-btn-primary" onClick={this.handleSave}>Add</button>
           </div>
 
         </div>

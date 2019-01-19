@@ -134,7 +134,7 @@ class ContactHistory extends Component {
           <div className="form-group">
             <label className="d-flex align-items-center justify-content-between g-mb-0">
               <span>Remove this person</span>
-              <button type="button" className="btn btn-danger btn-sm rounded-0 g-mr-0 g-mb-0" onClick={this.onRemove}>Delete</button>
+              <button type="button" className="btn btn-danger btn-sm" onClick={this.onRemove}>Delete</button>
             </label>
             <small className="form-text text-muted g-font-size-12 g-mt-0">This action cannot be undone.
             </small>
