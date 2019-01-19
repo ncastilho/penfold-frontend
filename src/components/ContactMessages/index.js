@@ -6,6 +6,8 @@ import moment from 'moment';
 import TimePicker from 'rc-time-picker';
 
 import 'rc-time-picker/assets/index.css';
+import validators from "../AddContactModal/validation";
+import classnames from "classnames";
 
 const MAX_CHARS = 160;
 
@@ -39,6 +41,7 @@ const Message = withAuth(class Message extends Component {
       contact: this.props.contact,
       scheduledTime: (this.props.message||{}).scheduledTime || defaultValue.format('HH:mm'),
       defaultValue: defaultValue.format('HH:mm'),
+      errors: [],
     }
 
   }
@@ -48,8 +51,12 @@ const Message = withAuth(class Message extends Component {
   }
 
   async handleOnAdd() {
+
+    if(!this.validateForm()) {
+      return;
+    }
     try {
-      await fetch(`${REACT_APP_API_BASE_URL}/api/contacts/${this.state.contact.id}/messages`, {
+      const response = await fetch(`${REACT_APP_API_BASE_URL}/api/contacts/${this.state.contact.id}/messages`, {
         method: 'POST',
         headers: {
           Authorization: 'Bearer ' + await this.props.auth.getAccessToken(),
@@ -61,19 +68,66 @@ const Message = withAuth(class Message extends Component {
         })
       });
 
-      this.setState({
-        content: '',
-        scheduledTime: this.state.defaultValue,
-      });
-      this.props.onStateChange();
+      if (!response.ok) {
+        throw Error(response.statusText);
+      } else {
+        const data = await response.json();
+        this.setState({
+          content: '',
+          scheduledTime: this.state.defaultValue,
+          errors: [],
+        });
+        this.props.onStateChange();
+      }
+
+
     } catch (err) {
-      console.error(err)
+      this.props.onHttpError();
     }
+  }
+
+  validateField = (field, value) => {
+    const errors = [];
+    console.log(field, value);
+
+    if(!validators[field]) {
+      return errors;
+    }
+
+    validators[field].forEach((rule) => {
+      const result = rule.test(value);
+      if(!result) {
+        errors.push(rule.msg);
+      }
+    });
+
+    this.setState((prevState) => ({
+      errors: {
+        ...prevState.errors,
+        [field]: errors,
+      }
+    }));
+
+    return errors;
+  }
+
+  validateForm = () => {
+    const form = {
+      content: this.state.content,
+      scheduledTime: this.state.scheduledTime,
+    };
+    const fields = Object.keys(form);
+
+    let errors = [];
+
+    fields.forEach((field) => { errors = [...errors, ...this.validateField(field, form[field])]});
+
+    return errors.length === 0;
   }
 
   async handleOnRemove() {
     try {
-      await fetch(`${REACT_APP_API_BASE_URL}/api/messages/${this.state.id}`, {
+      const response = await fetch(`${REACT_APP_API_BASE_URL}/api/messages/${this.state.id}`, {
         method: 'DELETE',
         headers: {
           Authorization: 'Bearer ' + await this.props.auth.getAccessToken(),
@@ -81,10 +135,15 @@ const Message = withAuth(class Message extends Component {
         }
       });
 
+      if (!response.ok) {
+        throw Error(response.statusText);
+      } else {
+
       this.setState({enabled: false})
       this.props.onStateChange();
+      }
     } catch (err) {
-      console.log(err)
+      this.props.onHttpError();
     }
   }
 
@@ -97,8 +156,12 @@ const Message = withAuth(class Message extends Component {
   }
 
   async handleOnUpdate() {
+    if(!this.validateForm()) {
+      return;
+    }
+
     try {
-      await fetch(`${REACT_APP_API_BASE_URL}/api/messages/${this.state.id}`, {
+      const response = await fetch(`${REACT_APP_API_BASE_URL}/api/messages/${this.state.id}`, {
         method: 'PUT',
         headers: {
           Authorization: 'Bearer ' + await this.props.auth.getAccessToken(),
@@ -108,29 +171,34 @@ const Message = withAuth(class Message extends Component {
           id: this.state.id,
           contactId: this.state.contact.id,
           content: this.state.content,
-          scheduledTime: this.state.scheduledTime
+          scheduledTime: this.state.scheduledTime,
+          errors: [],
         })
       });
 
-      this.setState({enabled: false})
+      if (!response.ok) {
+        throw Error(response.statusText);
+      } else {
+
+        this.setState({enabled: false})
+        this.props.onStateChange();
+      }
     } catch (err) {
-      console.error(err)
+      this.props.onHttpError();
     }
 
   }
 
   handleOnCancel = () => {
-    console.log(this.state.previousScheduledTime)
     this.setState({
       content: this.state.previousContent, enabled: false,
       scheduledTime: this.state.previousScheduledTime,
+      errors: [],
     })
   }
 
   handleOnClear = () => {
-    console.log(this.state.scheduledTime)
-    console.log(this.state.defaultValue)
-    this.setState({content: '', scheduledTime: this.state.defaultValue})
+    this.setState({content: '', scheduledTime: this.state.defaultValue, errors: [],})
   }
 
   handleOnSchedule = (value) => {
@@ -161,24 +229,32 @@ const Message = withAuth(class Message extends Component {
 
   render() {
 
+    const errors = this.state.errors.content || [];
+
     const {content, scheduledTime, enabled} = this.state;
     const remaining = MAX_CHARS - (content ? content.length : 0);
 
+    const hasErrors = errors.length > 0;
+    const cx = classnames('form-group', {
+      'g-mb-20': !hasErrors,
+      'u-has-error-v1 g-mb-0': hasErrors,
+    })
+    const errorFeedback = errors.map((error, idx) => <small key={idx} className="form-control-feedback">{error}</small>);
 
-    console.log(scheduledTime)
-    return <div className='form-group g-mb-20'>
+    return <div className={cx}>
       {(this.isNew() || this.isEditing()) &&
       <small className='form-text g-font-size-default g-mt-10 text-right'>{remaining} characters remaining</small>
       }
-      <div className='input-group g-brd-primary--focus'>
+
         <textarea className='form-control form-control-md g-resize-none rounded-0 disabled'
                   rows='4'
-                  placeholder='Ipsum Aenean Porta'
+                  placeholder='Message...'
                   onChange={this.handleOnTyping}
                   disabled={!enabled}
                   value={content}>
         </textarea>
-      </div>
+        {errorFeedback}
+
       {this.isNew() &&
       <small className='form-text g-font-size-default g-mt-10'>
         <i className='icon-clock g-mr-5'></i>
@@ -226,6 +302,7 @@ export default withAuth(class ContactMessages extends Component {
   state = {
     contact: this.props.contact || {},
     messages: [],
+    httpError: false,
   };
 
   constructor(props) {
@@ -251,7 +328,7 @@ export default withAuth(class ContactMessages extends Component {
         }
       });
       const data = await response.json();
-      this.setState({messages: data});
+      this.setState({messages: data, httpError: false});
     } catch (err) {
       console.error(err);
     }
@@ -265,16 +342,31 @@ export default withAuth(class ContactMessages extends Component {
     if (!this.state.messages) return <div>Loading...</div>;
     const {messages, contact} = this.state;
 
+    const alert = this.state.httpError ? <div className="col-lg-12 alert alert-dismissible fade show g-bg-red g-color-white rounded-0" role="alert">
+      <button type="button" className="close u-alert-close--light" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true" onClick={() => this.setState({httpError: false})}>×</span>
+      </button>
+      <div className="media">
+        <span className="d-flex g-mr-10 g-mt-5">
+          <i className="icon-ban g-font-size-25"></i>
+        </span>
+        <span className="media-body align-self-center">
+          <strong>Oh snap!</strong> Change a few things up and try submitting again.
+        </span>
+      </div>
+    </div> : null;
+
     return (
         <div className='row'>
+          {alert}
           <div className='col-lg-12 g-mb-50 g-mb-0--lg'>
             <Message key={'new'}
                      contact={contact}
-                     onStateChange={this.onStateChange} />
+                     onStateChange={this.onStateChange} onHttpError={() => this.setState({httpError:true})} />
             {messages.map((message) => <Message key={message.id}
                                                           message={message}
                                                           contact={contact}
-                                                          onStateChange={this.onStateChange} />)}
+                                                          onStateChange={this.onStateChange} onHttpError={() => this.setState({httpError:true})} />)}
           </div>
         </div>
     )

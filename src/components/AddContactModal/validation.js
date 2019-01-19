@@ -21,6 +21,12 @@ const validators = {
       msg: 'Mobile number is not valid. e.g: +44 7222 555 555 or 07222 555555'
     },
   ],
+  content: [
+    {
+      test: isNotEmpty,
+      msg: 'Message content cannot be empty.'
+    },
+  ],
 }
 
 export default validators;
