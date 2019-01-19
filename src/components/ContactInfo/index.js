@@ -161,13 +161,13 @@ class ContactInfo extends Component {
 
           {this.state.disabled &&
           <div className="text-sm-right g-mb-20">
-            <button className="btn u-btn-primary rounded-0 g-py-12 g-px-25" onClick={this.handleEdit}>Change</button>
+            <button className="btn btn-xs u-btn-primary" onClick={this.handleEdit}>Change</button>
           </div>
           }
           {!this.state.disabled &&
           <div className="text-sm-right g-mb-20">
-            <button className="btn u-btn-darkgray rounded-0 g-py-12 g-px-25 g-mr-10" onClick={this.handleCancel}>Cancel</button>
-            <button className="btn u-btn-primary rounded-0 g-py-12 g-px-25 g-width-120" onClick={this.handleSave}>Update</button>
+            <button className="btn btn-xs u-btn-darkgray g-mr-10" onClick={this.handleCancel}>Cancel</button>
+            <button className="btn btn-xs u-btn-primary" onClick={this.handleSave}>Update</button>
           </div>
           }
         </div>

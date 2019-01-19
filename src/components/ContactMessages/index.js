@@ -71,7 +71,7 @@ const Message = withAuth(class Message extends Component {
       if (!response.ok) {
         throw Error(response.statusText);
       } else {
-        const data = await response.json();
+        await response.json();
         this.setState({
           content: '',
           scheduledTime: this.state.defaultValue,
