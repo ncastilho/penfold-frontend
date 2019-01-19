@@ -330,7 +330,7 @@ export default withAuth(class ContactMessages extends Component {
       const data = await response.json();
       this.setState({messages: data, httpError: false});
     } catch (err) {
-      console.error(err);
+      this.setState({httpError: true});
     }
   }
 

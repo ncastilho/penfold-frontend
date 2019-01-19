@@ -31,7 +31,7 @@ class Home extends Component {
     }
   }
 
-  async componentDidMount() {
+    async componentDidMount() {
     try {
       const response = await fetch(`${REACT_APP_API_BASE_URL}/api/contacts`, {
         headers: {
