@@ -254,7 +254,7 @@ const Message = withAuth(class Message extends Component {
       {this.isNew() &&
       <small className='form-text g-font-size-default g-mt-10'>
         <i className='icon-clock g-mr-5'></i>
-        <TimePicker value={moment(scheduledTime, 'HH:mm')} showSecond={false} minuteStep={30} onChange={this.handleOnSchedule} />
+        <TimePicker value={moment(scheduledTime, 'HH:mm')} showSecond={false}  onChange={this.handleOnSchedule} />
         {content &&
         <React.Fragment>
           <span> | </span>
@@ -279,7 +279,7 @@ const Message = withAuth(class Message extends Component {
       {this.isEditing() &&
       <small className='form-text g-font-size-default g-mt-10'>
         <i className='icon-clock g-mr-5'></i>
-        <TimePicker value={moment(scheduledTime, 'HH:mm')} showSecond={false} minuteStep={30} onChange={this.handleOnSchedule} />
+        <TimePicker value={moment(scheduledTime, 'HH:mm')} showSecond={false}  onChange={this.handleOnSchedule} />
         {enabled &&
         <React.Fragment>
           <span> | </span>

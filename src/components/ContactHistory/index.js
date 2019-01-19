@@ -66,7 +66,7 @@ class ContactHistory extends Component {
             </thead>
 
             <tbody>
-            {history.map((item) => <HistoryItem key={item.id} item={item} />)}
+            {history.map((item) => <HistoryItem key={item.messageId} item={item} />)}
             {history.length === 0 &&
               <tr>
                 <td colSpan='3'>No history found...</td>
